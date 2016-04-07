@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class InputManager : MonoBehaviour
         currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ManageCameraControl();
-        ManageInput();
+        ManageMouseInput();
 
         lastFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
@@ -39,11 +40,17 @@ public class InputManager : MonoBehaviour
         return WorldManager.Instance.GetTileAtWorldCoord(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
-    void ManageInput()
+    void ManageMouseInput()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Fire1"))
         {
-            JobManager.Instance.CreateJobAt(GetTileUnderMouse());
+            if (GetTileUnderMouse() != null)
+                JobManager.Instance.CreateJobAt(GetTileUnderMouse());
         }
     }
 

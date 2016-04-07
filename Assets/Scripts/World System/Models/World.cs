@@ -32,7 +32,7 @@ public class World
     {
         if (x >= Width || x < 0 || y >= Height || y < 0)
         {
-            Debug.LogError(string.Format("Tile ({0},{1}) is out of range.", x, y));
+            //Debug.LogError(string.Format("Tile ({0},{1}) is out of range.", x, y));
             return null;
         }
         return Tiles[x, y];

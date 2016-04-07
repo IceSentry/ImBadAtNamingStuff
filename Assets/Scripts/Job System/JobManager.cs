@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class JobManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class JobManager : MonoBehaviour
 
     public static JobManager Instance { get; protected set; }
 
-    List<Job> Jobs;
+    Queue<Job> Jobs;
 
     // Use this for initialization
     void Start()
@@ -19,13 +20,17 @@ public class JobManager : MonoBehaviour
         }
         Instance = this;
 
-        Jobs = new List<Job>();
+        Jobs = new Queue<Job>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(Jobs.Count > 0)
+        {
+            Job job = Jobs.Dequeue();
+            job.DoJob();
+        }
     }
 
     public void SetJobMode(string mode)
@@ -35,6 +40,20 @@ public class JobManager : MonoBehaviour
 
     public void CreateJobAt(Tile tile)
     {
+        string jobMode = JobMode;
+        Job job = new Job(tile, j =>
+        {
+            switch (jobMode)
+            {
+                case "Mine":
+                    WorldActionManager.MineAt(j.tile);
+                    break;
+                default:
+                    break;
+            }
 
+        });
+
+        Jobs.Enqueue(job);
     }
 }

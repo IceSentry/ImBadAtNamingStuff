@@ -17,7 +17,7 @@ public class Job
         this.jobTime = jobTime;
     }
 
-    public void DoJob(float deltaTime)
+    public void DoJob(float deltaTime = 0.1f)
     {
         jobTime -= deltaTime;
 
