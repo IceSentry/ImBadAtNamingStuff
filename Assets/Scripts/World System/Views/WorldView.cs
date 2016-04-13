@@ -1,9 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// Based on Sebastian Lague tutorial series on Procedural generation.
-/// </summary>
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class WorldView : MonoBehaviour {
     WorldManager worldManager;
@@ -20,10 +17,10 @@ public class WorldView : MonoBehaviour {
     public Texture2D TileMap;
 
     void Start() {
-        meshFilter = FindObjectOfType<MeshFilter>();
-        meshRenderer = FindObjectOfType<MeshRenderer>();
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
         worldManager = WorldManager.Instance;
-        DrawMesh(GenerateMesh(), GenerateTexture());
+        GenerateMesh();
 
         for (int x = 0; x < worldManager.Width; x++) {
             for (int y = 0; y < worldManager.Height; y++) {
@@ -31,37 +28,36 @@ public class WorldView : MonoBehaviour {
                 t.TypeChanged += OnTypeChanged;
             }
         }
-
-        //transform.position = new Vector2(worldManager.Width / 2 - 0.5f, worldManager.Height / 2 - 0.5f);
     }
 
-    //TODO: Add a requestMeshData method and add chunk support
-    MeshData GenerateMesh() {
-        int width = worldManager.Width;
-        int height = worldManager.Height;
-
-        float topLeftX = (width - 1) / -2f;
-        float topLeftZ = (height - 1) / 2f;
+    //TODO implement a chunk system
+    void GenerateMesh() {
+        int width = worldManager.Width + 1;
+        int height = worldManager.Height + 1;
 
         MeshData meshData = new MeshData(width, height);
+
         int vertexIndex = 0;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 meshData.vertices[vertexIndex] = new Vector2(x * tileSize, y * tileSize);
-                meshData.uvs[vertexIndex] = new Vector2(x / (float)width, y / (float)height);
 
                 if (x < width - 1 && y < height - 1) {
                     meshData.AddTriangle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
                     meshData.AddTriangle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
                 }
+
                 vertexIndex++;
             }
         }
 
-        return meshData;
+        //meshData.uv = AssignUV();
+
+        meshFilter.sharedMesh = meshData.CreateMesh();
     }
 
+    #region slow way of drawing the mesh
     Texture2D GenerateTexture() {
         int tilesPerRow = TileMap.width / tileResolution;
         int tilesRow = TileMap.height / tileResolution;
@@ -116,26 +112,43 @@ public class WorldView : MonoBehaviour {
         meshFilter.sharedMesh = meshData.CreateMesh();
         meshRenderer.sharedMaterial.mainTexture = texture;
     }
+    #endregion
+
+    //TODO: Assign uv based on tile type
+    Vector2[] AssignUV() {
+        throw new NotImplementedException();
+    }
+
+    void UpdateUVs() {
+        Vector2[] uv = meshFilter.sharedMesh.uv;
+
+        uv = AssignUV();
+
+        meshFilter.sharedMesh.uv = uv;
+
+        meshFilter.sharedMesh.Optimize();
+        meshFilter.sharedMesh.RecalculateNormals();
+    }
 
     public void OnTypeChanged(object source, EventArgs e) {
-        //meshRenderer.sharedMaterial.mainTexture = GenerateTexture();
+        UpdateUVs();
     }
 
     public void ReloadTexture() {
-        meshRenderer.sharedMaterial.mainTexture = GenerateTexture();
+        UpdateUVs();
     }
 }
 
 public class MeshData {
     public Vector3[] vertices;
     public int[] triangles;
-    public Vector2[] uvs;
+    public Vector2[] uv;
 
     int triangleIndex;
 
     public MeshData(int meshWidth, int meshHeight) {
         vertices = new Vector3[meshWidth * meshHeight];
-        uvs = new Vector2[meshWidth * meshHeight];
+        uv = new Vector2[meshWidth * meshHeight];
         triangles = new int[(meshWidth - 1) * (meshHeight - 1) * 6];
     }
 
@@ -150,7 +163,8 @@ public class MeshData {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
-        mesh.uv = uvs;
+        mesh.uv = uv;
+        mesh.Optimize();
         mesh.RecalculateNormals();
         return mesh;
     }

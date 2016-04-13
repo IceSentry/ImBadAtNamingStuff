@@ -1,21 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class JobManager : MonoBehaviour
-{
+public class JobManager : MonoBehaviour {
     string JobMode = "Default";
 
     public static JobManager Instance { get; protected set; }
 
     Queue<Job> Jobs;
 
-    // Use this for initialization
-    void Start()
-    {
-        if (Instance != null)
-        {
+    void Start() {
+        if (Instance != null) {
             Debug.LogError("There should never be more than 1 JobManager.");
         }
         Instance = this;
@@ -23,28 +17,23 @@ public class JobManager : MonoBehaviour
         Jobs = new Queue<Job>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Jobs.Count > 0)
-        {
+    void Update() {
+        //TODO remove this temporary hack to complete job instantly
+        if (Jobs.Count > 0) {
             Job job = Jobs.Dequeue();
             job.DoJob();
         }
     }
 
-    public void SetJobMode(string mode)
-    {
+    public void SetJobMode(string mode) {
         JobMode = mode;
     }
 
-    public void CreateJobAt(Tile tile)
-    {
+    public void CreateJobAt(Tile tile) {
+        //TODO Use an action or something similar for the currentJob
         string jobMode = JobMode;
-        Job job = new Job(tile, j =>
-        {
-            switch (jobMode)
-            {
+        Job job = new Job(tile, j => {
+            switch (jobMode) {
                 case "Mine":
                     WorldActionManager.MineAt(j.tile);
                     break;
