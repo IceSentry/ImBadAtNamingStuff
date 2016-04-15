@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Use this attribute to draw a EditorGUI.HelpBox above your field.
     ///
@@ -10,11 +10,10 @@ namespace BitStrap
     /// <para>public int myIntField</para>
     /// </code>
     /// </summary>
-    [System.AttributeUsage( System.AttributeTargets.Field, AllowMultiple = true )]
-    public class HelpBoxAttribute : PropertyAttribute
-    {
-        public enum MessageType
-        {
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true)]
+    public class HelpBoxAttribute : PropertyAttribute {
+
+        public enum MessageType {
             None,
             Info,
             Warning,
@@ -24,8 +23,7 @@ namespace BitStrap
         public string message;
         public MessageType messageType;
 
-        public HelpBoxAttribute( string message, MessageType messageType = MessageType.None )
-        {
+        public HelpBoxAttribute(string message, MessageType messageType = MessageType.None) {
             this.message = message;
             this.messageType = messageType;
         }

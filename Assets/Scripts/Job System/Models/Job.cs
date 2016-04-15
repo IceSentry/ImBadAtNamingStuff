@@ -1,35 +1,27 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
 
-public class Job
-{
-
+public class Job {
     public Tile tile { get; protected set; }
-    float jobTime;
+    private float jobTime;
 
-    Action<Job> jobComplete;
+    private Action<Job> jobComplete;
 
-    public Job(Tile tile, Action<Job> jobComplete, float jobTime = 0.1f)
-    {
+    public Job(Tile tile, Action<Job> jobComplete, float jobTime = 0.1f) {
         this.tile = tile;
         this.jobComplete = jobComplete;
         this.jobTime = jobTime;
     }
 
-    public void DoJob(float deltaTime = 0.1f)
-    {
+    public void DoJob(float deltaTime = 0.1f) {
         jobTime -= deltaTime;
 
-        if (jobTime <= 0)
-        {
+        if (jobTime <= 0) {
             if (jobComplete != null)
                 jobComplete(this);
         }
     }
 
-    public void CancelJob()
-    {
+    public void CancelJob() {
         jobComplete = null;
         tile = null;
     }

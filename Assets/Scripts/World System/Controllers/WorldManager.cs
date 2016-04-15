@@ -3,8 +3,10 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class WorldManager : Singleton<WorldManager> {
+
     [SerializeField]
     public int Width = 50;
+
     [SerializeField]
     public int Height = 50;
 
@@ -12,13 +14,12 @@ public class WorldManager : Singleton<WorldManager> {
 
     public bool IsReloadingWorld = false;
 
-
-    void OnEnable() {
+    private void OnEnable() {
         World = WorldGenerator.Instance.GenerateWorld(World, Width, Height);
     }
 
     [Button]
-    void ReloadWorld() {
+    private void ReloadWorld() {
         IsReloadingWorld = true;
         World = WorldGenerator.Instance.GenerateWorld(World, Width, Height);
         WorldView.Instance.ReloadTexture();

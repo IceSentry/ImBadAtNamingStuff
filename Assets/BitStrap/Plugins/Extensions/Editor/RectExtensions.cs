@@ -1,14 +1,14 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Provides a set of methods to aux non-layout editor code.
     /// It contains methods that smartly positions Rects in the Inspector.
     /// </summary>
-    public static class RectExtensions
-    {
+    public static class RectExtensions {
+
         /// <summary>
         /// Given a source big Rect, it returns a sub Rect with same width
         /// but with the height of EditorGUIUtility.singleLineHeight.
@@ -18,12 +18,10 @@ namespace BitStrap
         /// <param name="position"></param>
         /// <param name="rownNumber"></param>
         /// <returns></returns>
-        public static Rect Row( this Rect position, int rownNumber )
-        {
-            position.yMin += EditorGUIUtility.singleLineHeight * Mathf.Abs( rownNumber );
+        public static Rect Row(this Rect position, int rownNumber) {
+            position.yMin += EditorGUIUtility.singleLineHeight * Mathf.Abs(rownNumber);
 
-            if( rownNumber >= 0 )
-            {
+            if (rownNumber >= 0) {
                 position.height = EditorGUIUtility.singleLineHeight;
             }
 
@@ -36,14 +34,11 @@ namespace BitStrap
         /// <param name="position"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public static Rect Left( this Rect position, float width )
-        {
-            if( width > 0.0f )
-            {
+        public static Rect Left(this Rect position, float width) {
+            if (width > 0.0f) {
                 position.width = width;
             }
-            else
-            {
+            else {
                 position.xMin -= width;
             }
 
@@ -56,14 +51,11 @@ namespace BitStrap
         /// <param name="position"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public static Rect Right( this Rect position, float width )
-        {
-            if( width > 0.0f )
-            {
+        public static Rect Right(this Rect position, float width) {
+            if (width > 0.0f) {
                 position.xMin = position.xMax - width;
             }
-            else
-            {
+            else {
                 position.width += width;
             }
 

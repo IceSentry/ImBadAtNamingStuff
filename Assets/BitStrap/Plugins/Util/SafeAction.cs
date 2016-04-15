@@ -2,50 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Safe version of System.Action that envelopes each call in a try/catch to prevent
     /// execution flow interruption just because of one bad callback.
     /// </summary>
-    public class SafeAction
-    {
+    public class SafeAction {
         private List<Action> actions = new List<Action>();
 
         /// <summary>
         /// Register a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Register( Action a )
-        {
-            if( !actions.Contains( a ) )
-                actions.Add( a );
+        public void Register(Action a) {
+            if (!actions.Contains(a))
+                actions.Add(a);
         }
 
         /// <summary>
         /// Unregister a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Unregister( Action a )
-        {
-            actions.Remove( a );
+        public void Unregister(Action a) {
+            actions.Remove(a);
         }
 
         /// <summary>
         /// Trigger all callbacks.
         /// </summary>
-        public void Call()
-        {
-            for( int i = 0; i < actions.Count; i++ )
-            {
-                try
-                {
-                    if( actions[i] != null )
+        public void Call() {
+            for (int i = 0; i < actions.Count; i++) {
+                try {
+                    if (actions[i] != null)
                         actions[i]();
                 }
-                catch( Exception e )
-                {
-                    Debug.LogException( e );
+                catch (Exception e) {
+                    Debug.LogException(e);
                 }
             }
         }
@@ -56,45 +49,38 @@ namespace BitStrap
     /// execution flow interuption just because of one bad callback.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SafeAction<T>
-    {
+    public class SafeAction<T> {
         private List<Action<T>> actions = new List<Action<T>>();
 
         /// <summary>
         /// Register a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Register( Action<T> a )
-        {
-            if( !actions.Contains( a ) )
-                actions.Add( a );
+        public void Register(Action<T> a) {
+            if (!actions.Contains(a))
+                actions.Add(a);
         }
 
         /// <summary>
         /// Unregister a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Unregister( Action<T> a )
-        {
-            actions.Remove( a );
+        public void Unregister(Action<T> a) {
+            actions.Remove(a);
         }
 
         /// <summary>
         /// Trigger all callbacks.
         /// </summary>
         /// <param name="p1"></param>
-        public void Call( T p1 )
-        {
-            for( int i = 0; i < actions.Count; i++ )
-            {
-                try
-                {
-                    if( actions[i] != null )
-                        actions[i]( p1 );
+        public void Call(T p1) {
+            for (int i = 0; i < actions.Count; i++) {
+                try {
+                    if (actions[i] != null)
+                        actions[i](p1);
                 }
-                catch( Exception e )
-                {
-                    Debug.LogException( e );
+                catch (Exception e) {
+                    Debug.LogException(e);
                 }
             }
         }
@@ -106,27 +92,24 @@ namespace BitStrap
     /// </summary>
     /// <typeparam name="T1"></typeparam>
     /// <typeparam name="T2"></typeparam>
-    public class SafeAction<T1, T2>
-    {
+    public class SafeAction<T1, T2> {
         private List<Action<T1, T2>> actions = new List<Action<T1, T2>>();
 
         /// <summary>
         /// Register a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Register( Action<T1, T2> a )
-        {
-            if( !actions.Contains( a ) )
-                actions.Add( a );
+        public void Register(Action<T1, T2> a) {
+            if (!actions.Contains(a))
+                actions.Add(a);
         }
 
         /// <summary>
         /// Unregister a callback.
         /// </summary>
         /// <param name="a"></param>
-        public void Unregister( Action<T1, T2> a )
-        {
-            actions.Remove( a );
+        public void Unregister(Action<T1, T2> a) {
+            actions.Remove(a);
         }
 
         /// <summary>
@@ -134,18 +117,14 @@ namespace BitStrap
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
-        public void Call( T1 p1, T2 p2 )
-        {
-            for( int i = 0; i < actions.Count; i++ )
-            {
-                try
-                {
-                    if( actions[i] != null )
-                        actions[i]( p1, p2 );
+        public void Call(T1 p1, T2 p2) {
+            for (int i = 0; i < actions.Count; i++) {
+                try {
+                    if (actions[i] != null)
+                        actions[i](p1, p2);
                 }
-                catch( Exception e )
-                {
-                    Debug.LogException( e );
+                catch (Exception e) {
+                    Debug.LogException(e);
                 }
             }
         }

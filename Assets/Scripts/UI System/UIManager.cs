@@ -5,12 +5,11 @@ public class UIManager : MonoBehaviour {
     public Text tooltipUI;
 
     // Use this for initialization
-    void Start() {
-
+    private void Start() {
     }
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         string tooltip = "";
 
         Tile tile = WorldManager.Instance.GetTileAtWorldCoord(Camera.main.ScreenToWorldPoint(Input.mousePosition));

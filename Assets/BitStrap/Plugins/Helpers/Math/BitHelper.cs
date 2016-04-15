@@ -1,16 +1,15 @@
 ﻿using System.Text;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Helper class for working with the bits inside an int.
     /// </summary>
-    public static class BitHelper
-    {
+    public static class BitHelper {
         private const int IntSize = 32;
         private readonly static int[] randIntsArray = new int[IntSize];
         private readonly static bool[] bitsArray = new bool[IntSize];
-        private readonly static StringBuilder stringBuilder = new StringBuilder( IntSize );
+        private readonly static StringBuilder stringBuilder = new StringBuilder(IntSize);
         private readonly static FastRandom fastRandom = new FastRandom();
 
         /// <summary>
@@ -18,19 +17,16 @@ namespace BitStrap
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static string ToBinaryString( this int v )
-        {
+        public static string ToBinaryString(this int v) {
             stringBuilder.Length = 0;
 
-            for( int i = 0; i < IntSize; i++ )
-            {
+            for (int i = 0; i < IntSize; i++) {
                 int mask = 1 << i;
-                bitsArray[i] = ( v & mask ) != 0;
+                bitsArray[i] = (v & mask) != 0;
             }
 
-            for( int i = IntSize - 1; i >= 0; i-- )
-            {
-                stringBuilder.Append( bitsArray[i] ? '1' : '0' );
+            for (int i = IntSize - 1; i >= 0; i--) {
+                stringBuilder.Append(bitsArray[i] ? '1' : '0');
             }
 
             return stringBuilder.ToString();
@@ -45,16 +41,14 @@ namespace BitStrap
         /// <param name="key"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public static int ShuffleBits( int num, int key, int offset = 0 )
-        {
-            fastRandom.SetSeed( key );
+        public static int ShuffleBits(int num, int key, int offset = 0) {
+            fastRandom.SetSeed(key);
 
             num += offset;
 
-            for( int i = 0; i < IntSize; i++ )
-            {
+            for (int i = 0; i < IntSize; i++) {
                 int result = fastRandom.GetNextInt();
-                num = SwapBits( num, i, result % IntSize );
+                num = SwapBits(num, i, result % IntSize);
             }
 
             return num;
@@ -68,19 +62,16 @@ namespace BitStrap
         /// <param name="key"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public static int UnshuffleBits( int num, int key, int offset = 0 )
-        {
-            fastRandom.SetSeed( key );
+        public static int UnshuffleBits(int num, int key, int offset = 0) {
+            fastRandom.SetSeed(key);
 
-            for( int i = 0; i < IntSize; i++ )
-            {
+            for (int i = 0; i < IntSize; i++) {
                 randIntsArray[i] = fastRandom.GetNextInt();
             }
 
-            for( int i = IntSize - 1; i >= 0; i-- )
-            {
+            for (int i = IntSize - 1; i >= 0; i--) {
                 int result = randIntsArray[i];
-                num = SwapBits( num, i, result % IntSize );
+                num = SwapBits(num, i, result % IntSize);
             }
 
             return num - offset;
@@ -93,16 +84,15 @@ namespace BitStrap
         /// <param name="indexA"></param>
         /// <param name="indexB"></param>
         /// <returns></returns>
-        public static int SwapBits( int num, int indexA, int indexB )
-        {
+        public static int SwapBits(int num, int indexA, int indexB) {
             int maskA = 1 << indexA;
             int maskB = 1 << indexB;
 
-            bool a = ( num & maskA ) != 0;
-            bool b = ( num & maskB ) != 0;
+            bool a = (num & maskA) != 0;
+            bool b = (num & maskB) != 0;
 
-            num = a ? ( num | maskB ) : ( num & ( ~maskB ) );
-            num = b ? ( num | maskA ) : ( num & ( ~maskA ) );
+            num = a ? (num | maskB) : (num & (~maskB));
+            num = b ? (num | maskA) : (num & (~maskA));
 
             return num;
         }

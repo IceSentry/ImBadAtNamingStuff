@@ -2,13 +2,13 @@
 using UnityEngine;
 
 public class JobManager : MonoBehaviour {
-    string JobMode = "Default";
+    private string JobMode = "Default";
 
     public static JobManager Instance { get; protected set; }
 
-    Queue<Job> Jobs;
+    private Queue<Job> Jobs;
 
-    void Start() {
+    private void Start() {
         if (Instance != null) {
             Debug.LogError("There should never be more than 1 JobManager.");
         }
@@ -17,7 +17,7 @@ public class JobManager : MonoBehaviour {
         Jobs = new Queue<Job>();
     }
 
-    void Update() {
+    private void Update() {
         //TODO remove this temporary hack to complete job instantly
         if (Jobs.Count > 0) {
             Job job = Jobs.Dequeue();
@@ -37,10 +37,10 @@ public class JobManager : MonoBehaviour {
                 case "Mine":
                     WorldActionManager.MineAt(j.tile);
                     break;
+
                 default:
                     break;
             }
-
         });
 
         Jobs.Enqueue(job);

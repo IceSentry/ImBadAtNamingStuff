@@ -5,7 +5,7 @@ public class MeshData {
     public int[] triangles;
     public Vector2[] uv;
 
-    int triangleIndex;
+    private int triangleIndex;
 
     public MeshData(int meshWidth, int meshHeight) {
         vertices = new Vector3[meshWidth * meshHeight * 4];

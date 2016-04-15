@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Use this attribute to make a field appear as read only in the inspector.
     ///
@@ -10,8 +10,7 @@ namespace BitStrap
     /// <para>public int myIntField</para>
     /// </code>
     /// </summary>
-    [System.AttributeUsage( System.AttributeTargets.Field, AllowMultiple = false )]
-    public class ReadOnlyAttribute : PropertyAttribute
-    {
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = false)]
+    public class ReadOnlyAttribute : PropertyAttribute {
     }
 }

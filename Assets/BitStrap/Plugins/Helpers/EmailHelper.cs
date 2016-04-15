@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Bunch of helper methods to work with email strings.
     /// </summary>
-    public static class EmailHelper
-    {
+    public static class EmailHelper {
+
         private const string emailPattern =
             @"^([0-9a-zA-Z]" + //Start with a digit or alphabate
             @"([\+\-_\.][0-9a-zA-Z]+)*" + // No continues or ending +-_. chars in email
@@ -16,15 +16,14 @@ namespace BitStrap
 
         private static ICollection<string> emailProviders = new HashSet<string>();
 
-        static EmailHelper()
-        {
-            emailProviders.Add( "gmail.com" );
-            emailProviders.Add( "hotmail.com" );
-            emailProviders.Add( "yahoo.com" );
-            emailProviders.Add( "live.com" );
-            emailProviders.Add( "icloud.com" );
-            emailProviders.Add( "me.com" );
-            emailProviders.Add( "outlook.com" );
+        static EmailHelper() {
+            emailProviders.Add("gmail.com");
+            emailProviders.Add("hotmail.com");
+            emailProviders.Add("yahoo.com");
+            emailProviders.Add("live.com");
+            emailProviders.Add("icloud.com");
+            emailProviders.Add("me.com");
+            emailProviders.Add("outlook.com");
         }
 
         /// <summary>
@@ -32,9 +31,8 @@ namespace BitStrap
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static bool IsEmail( string text )
-        {
-            return Regex.IsMatch( text, emailPattern );
+        public static bool IsEmail(string text) {
+            return Regex.IsMatch(text, emailPattern);
         }
 
         /// <summary>
@@ -43,51 +41,44 @@ namespace BitStrap
         /// <param name="email"></param>
         /// <param name="correctEmail"></param>
         /// <returns></returns>
-        public static bool IsMistyped( string email, out string correctEmail )
-        {
-            if( !IsEmail( email ) )
-            {
+        public static bool IsMistyped(string email, out string correctEmail) {
+            if (!IsEmail(email)) {
                 correctEmail = null;
                 return true;
             }
 
             correctEmail = email;
 
-            int emailProviderIndex = email.IndexOf( '@' ) + 1;
-            int emailProviderLength = email.IndexOf( '.', emailProviderIndex );
+            int emailProviderIndex = email.IndexOf('@') + 1;
+            int emailProviderLength = email.IndexOf('.', emailProviderIndex);
 
-            int secondDotIndex = email.IndexOf( '.', emailProviderLength + 1 );
+            int secondDotIndex = email.IndexOf('.', emailProviderLength + 1);
 
-            if( secondDotIndex < 0 )
-            {
+            if (secondDotIndex < 0) {
                 secondDotIndex = email.Length;
             }
 
             emailProviderLength = secondDotIndex - emailProviderIndex;
 
-            string emailProvider = email.Substring( emailProviderIndex, emailProviderLength );
+            string emailProvider = email.Substring(emailProviderIndex, emailProviderLength);
 
             string mostCorrectProvider = null;
             int mostCorrectDistance = 6;
 
-            foreach( string provider in emailProviders )
-            {
-                int distance = emailProvider.Distance( provider );
+            foreach (string provider in emailProviders) {
+                int distance = emailProvider.Distance(provider);
 
-                if( distance == 0 )
-                {
+                if (distance == 0) {
                     return false;
                 }
-                else if( distance < mostCorrectDistance )
-                {
+                else if (distance < mostCorrectDistance) {
                     mostCorrectDistance = distance;
                     mostCorrectProvider = provider;
                 }
             }
 
-            if( !string.IsNullOrEmpty( mostCorrectProvider ) )
-            {
-                correctEmail = email.Remove( emailProviderIndex, emailProviderLength ).Insert( emailProviderIndex, mostCorrectProvider );
+            if (!string.IsNullOrEmpty(mostCorrectProvider)) {
+                correctEmail = email.Remove(emailProviderIndex, emailProviderLength).Insert(emailProviderIndex, mostCorrectProvider);
                 return true;
             }
 

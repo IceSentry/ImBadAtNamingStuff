@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace BitStrap
-{
-    public interface IValidatable
-    {
+namespace BitStrap {
+
+    public interface IValidatable {
+
         void Validate();
     }
 
@@ -11,35 +11,34 @@ namespace BitStrap
     /// Specialized version of NumberBounds for int.
     /// </summary>
     [System.Serializable]
-    public class IntBounds : NumberBounds<int>
-    {
-        public IntBounds() : base()
-        { }
+    public class IntBounds : NumberBounds<int> {
 
-        public IntBounds( int min, int max ) : base( min, max )
-        { }
+        public IntBounds() : base() {
+        }
+
+        public IntBounds(int min, int max) : base(min, max) {
+        }
     }
 
     /// <summary>
     /// Specialized version of NumberBounds for float.
     /// </summary>
     [System.Serializable]
-    public class FloatBounds : NumberBounds<float>
-    {
-        public FloatBounds() : base()
-        { }
+    public class FloatBounds : NumberBounds<float> {
 
-        public FloatBounds( float min, float max ) : base( min, max )
-        { }
+        public FloatBounds() : base() {
+        }
+
+        public FloatBounds(float min, float max) : base(min, max) {
+        }
 
         /// <summary>
         /// Lerp between its min and max numbers.
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public float Lerp( float t )
-        {
-            return Mathf.Lerp( min, max, t );
+        public float Lerp(float t) {
+            return Mathf.Lerp(min, max, t);
         }
     }
 
@@ -49,19 +48,18 @@ namespace BitStrap
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [System.Serializable]
-    public class NumberBounds<T> : IValidatable where T : System.IComparable<T>
-    {
-        [SerializeField]
-        protected T min = default( T );
+    public class NumberBounds<T> : IValidatable where T : System.IComparable<T> {
 
         [SerializeField]
-        protected T max = default( T );
+        protected T min = default(T);
+
+        [SerializeField]
+        protected T max = default(T);
 
         /// <summary>
         /// Bounds minimum value.
         /// </summary>
-        public T Min
-        {
+        public T Min {
             get { return min; }
             set { min = value; ValidateBounds(); }
         }
@@ -69,19 +67,16 @@ namespace BitStrap
         /// <summary>
         /// Bounds maximum value.
         /// </summary>
-        public T Max
-        {
+        public T Max {
             get { return max; }
             set { max = value; ValidateBounds(); }
         }
 
-        public NumberBounds()
-        {
+        public NumberBounds() {
         }
 
-        public NumberBounds( T min, T max )
-        {
-            Set( min, max );
+        public NumberBounds(T min, T max) {
+            Set(min, max);
         }
 
         /// <summary>
@@ -89,8 +84,7 @@ namespace BitStrap
         /// </summary>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        public void Set( T min, T max )
-        {
+        public void Set(T min, T max) {
             this.min = min;
             this.max = max;
             ValidateBounds();
@@ -101,10 +95,9 @@ namespace BitStrap
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public T Clamp( T value )
-        {
-            value = GetMax( value, min );
-            value = GetMin( value, max );
+        public T Clamp(T value) {
+            value = GetMax(value, min);
+            value = GetMin(value, max);
             return value;
         }
 
@@ -113,8 +106,7 @@ namespace BitStrap
         /// </summary>
         /// <param name="selectMax"></param>
         /// <returns></returns>
-        public T SelectMax( bool selectMax )
-        {
+        public T SelectMax(bool selectMax) {
             return selectMax ? max : min;
         }
 
@@ -122,28 +114,24 @@ namespace BitStrap
         /// Validates if min < max
         /// And, if not, corrects the values.
         /// </summary>
-        void IValidatable.Validate()
-        {
+        void IValidatable.Validate() {
             ValidateBounds();
         }
 
-        protected static T GetMin( T a, T b )
-        {
-            return a.CompareTo( b ) <= 0 ? a : b;
+        protected static T GetMin(T a, T b) {
+            return a.CompareTo(b) <= 0 ? a : b;
         }
 
-        protected static T GetMax( T a, T b )
-        {
-            return a.CompareTo( b ) >= 0 ? a : b;
+        protected static T GetMax(T a, T b) {
+            return a.CompareTo(b) >= 0 ? a : b;
         }
 
-        private void ValidateBounds()
-        {
+        private void ValidateBounds() {
             T tempMin = min;
             T tempMax = max;
 
-            min = GetMin( tempMin, tempMax );
-            max = GetMax( tempMin, tempMax );
+            min = GetMin(tempMin, tempMax);
+            max = GetMax(tempMin, tempMax);
         }
     }
 }

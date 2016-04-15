@@ -1,35 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Bunch of utility extension methods to the generic List class.
     /// These methods are intended to be System.Ling substitues as they do not generate garbage.
     /// </summary>
-    public static class ListExtensions
-    {
-        public struct GCFreeEnumerator<T>
-        {
+    public static class ListExtensions {
+
+        public struct GCFreeEnumerator<T> {
             private List<T>.Enumerator enumerator;
 
-            public T Current
-            {
+            public T Current {
                 get { return enumerator.Current; }
             }
 
-            public GCFreeEnumerator( List<T> collection )
-            {
+            public GCFreeEnumerator(List<T> collection) {
                 enumerator = collection.GetEnumerator();
             }
 
-            public GCFreeEnumerator<T> GetEnumerator()
-            {
+            public GCFreeEnumerator<T> GetEnumerator() {
                 return this;
             }
 
-            public bool MoveNext()
-            {
+            public bool MoveNext() {
                 return enumerator.MoveNext();
             }
         }
@@ -47,9 +42,8 @@ namespace BitStrap
         /// <typeparam name="V"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static GCFreeEnumerator<T> Each<T>( this List<T> collection )
-        {
-            return new GCFreeEnumerator<T>( collection );
+        public static GCFreeEnumerator<T> Each<T>(this List<T> collection) {
+            return new GCFreeEnumerator<T>(collection);
         }
 
         /// <summary>
@@ -59,15 +53,13 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static int Count<T>( this List<T> collection, System.Predicate<T> predicate )
-        {
-            if( predicate == null )
+        public static int Count<T>(this List<T> collection, System.Predicate<T> predicate) {
+            if (predicate == null)
                 return 0;
 
             int count = 0;
-            for( int i = 0; i < collection.Count; i++ )
-            {
-                if( predicate( collection[i] ) )
+            for (int i = 0; i < collection.Count; i++) {
+                if (predicate(collection[i]))
                     count++;
             }
 
@@ -81,14 +73,12 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static bool All<T>( this List<T> collection, System.Predicate<T> predicate )
-        {
-            if( predicate == null )
+        public static bool All<T>(this List<T> collection, System.Predicate<T> predicate) {
+            if (predicate == null)
                 return false;
 
-            for( int i = 0; i < collection.Count; i++ )
-            {
-                if( !predicate( collection[i] ) )
+            for (int i = 0; i < collection.Count; i++) {
+                if (!predicate(collection[i]))
                     return false;
             }
 
@@ -102,14 +92,12 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static bool Any<T>( this List<T> collection, System.Predicate<T> predicate )
-        {
-            if( predicate == null )
+        public static bool Any<T>(this List<T> collection, System.Predicate<T> predicate) {
+            if (predicate == null)
                 return false;
 
-            for( int i = 0; i < collection.Count; i++ )
-            {
-                if( predicate( collection[i] ) )
+            for (int i = 0; i < collection.Count; i++) {
+                if (predicate(collection[i]))
                     return true;
             }
 
@@ -122,9 +110,8 @@ namespace BitStrap
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static T FirstOrDefault<T>( this List<T> collection )
-        {
-            return collection.Count > 0 ? collection[0] : default( T );
+        public static T FirstOrDefault<T>(this List<T> collection) {
+            return collection.Count > 0 ? collection[0] : default(T);
         }
 
         /// <summary>
@@ -134,15 +121,13 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static T FirstOrDefault<T>( this List<T> collection, System.Predicate<T> predicate )
-        {
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                if( predicate( enumerator.Current ) )
+        public static T FirstOrDefault<T>(this List<T> collection, System.Predicate<T> predicate) {
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                if (predicate(enumerator.Current))
                     return enumerator.Current;
             }
 
-            return default( T );
+            return default(T);
         }
 
         /// <summary>
@@ -151,25 +136,23 @@ namespace BitStrap
         /// <typeparam name="T"></typeparam>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static string ToStringFull<T>( this List<T> predicate )
-        {
-            if( predicate == null )
+        public static string ToStringFull<T>(this List<T> predicate) {
+            if (predicate == null)
                 return "null";
-            if( predicate.Count <= 0 )
+            if (predicate.Count <= 0)
                 return "[]";
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append( "[ " );
+            sb.Append("[ ");
 
-            for( int i = 0; i < predicate.Count - 1; i++ )
-            {
-                sb.Append( predicate[i].ToString() );
-                sb.Append( ", " );
+            for (int i = 0; i < predicate.Count - 1; i++) {
+                sb.Append(predicate[i].ToString());
+                sb.Append(", ");
             }
 
-            sb.Append( predicate[predicate.Count - 1].ToString() );
-            sb.Append( " ]" );
+            sb.Append(predicate[predicate.Count - 1].ToString());
+            sb.Append(" ]");
 
             return sb.ToString();
         }

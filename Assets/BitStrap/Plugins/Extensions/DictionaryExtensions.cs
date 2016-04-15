@@ -1,35 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Bunch of utility extension methods to the generic Dictionary class.
     /// These methods are intended to be System.Ling substitues as they do not generate garbage.
     /// </summary>
-    public static class DictionaryExtensions
-    {
-        public struct GCFreeEnumerator<K, V>
-        {
+    public static class DictionaryExtensions {
+
+        public struct GCFreeEnumerator<K, V> {
             private Dictionary<K, V>.Enumerator enumerator;
 
-            public KeyValuePair<K, V> Current
-            {
+            public KeyValuePair<K, V> Current {
                 get { return enumerator.Current; }
             }
 
-            public GCFreeEnumerator( Dictionary<K, V> collection )
-            {
+            public GCFreeEnumerator(Dictionary<K, V> collection) {
                 enumerator = collection.GetEnumerator();
             }
 
-            public GCFreeEnumerator<K, V> GetEnumerator()
-            {
+            public GCFreeEnumerator<K, V> GetEnumerator() {
                 return this;
             }
 
-            public bool MoveNext()
-            {
+            public bool MoveNext() {
                 return enumerator.MoveNext();
             }
         }
@@ -47,9 +42,8 @@ namespace BitStrap
         /// <typeparam name="V"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static GCFreeEnumerator<K, V> Each<K, V>( this Dictionary<K, V> collection )
-        {
-            return new GCFreeEnumerator<K, V>( collection );
+        public static GCFreeEnumerator<K, V> Each<K, V>(this Dictionary<K, V> collection) {
+            return new GCFreeEnumerator<K, V>(collection);
         }
 
         /// <summary>
@@ -60,15 +54,13 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static int Count<K, V>( this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate )
-        {
-            if( predicate == null )
+        public static int Count<K, V>(this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate) {
+            if (predicate == null)
                 return 0;
 
             int count = 0;
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                if( predicate( enumerator.Current ) )
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                if (predicate(enumerator.Current))
                     count++;
             }
 
@@ -83,14 +75,12 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static bool All<K, V>( this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate )
-        {
-            if( predicate == null )
+        public static bool All<K, V>(this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate) {
+            if (predicate == null)
                 return false;
 
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                if( !predicate( enumerator.Current ) )
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                if (!predicate(enumerator.Current))
                     return false;
             }
 
@@ -105,14 +95,12 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static bool Any<K, V>( this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate )
-        {
-            if( predicate == null )
+        public static bool Any<K, V>(this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate) {
+            if (predicate == null)
                 return false;
 
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                if( predicate( enumerator.Current ) )
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                if (predicate(enumerator.Current))
                     return true;
             }
 
@@ -126,13 +114,12 @@ namespace BitStrap
         /// <typeparam name="V"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static KeyValuePair<K, V> FirstOrDefault<K, V>( this Dictionary<K, V> collection )
-        {
+        public static KeyValuePair<K, V> FirstOrDefault<K, V>(this Dictionary<K, V> collection) {
             var enumerator = collection.GetEnumerator();
-            if( enumerator.MoveNext() )
+            if (enumerator.MoveNext())
                 return enumerator.Current;
 
-            return default( KeyValuePair<K, V> );
+            return default(KeyValuePair<K, V>);
         }
 
         /// <summary>
@@ -143,15 +130,13 @@ namespace BitStrap
         /// <param name="collection"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public static KeyValuePair<K, V> FirstOrDefault<K, V>( this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate )
-        {
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                if( predicate( enumerator.Current ) )
+        public static KeyValuePair<K, V> FirstOrDefault<K, V>(this Dictionary<K, V> collection, System.Predicate<KeyValuePair<K, V>> predicate) {
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                if (predicate(enumerator.Current))
                     return enumerator.Current;
             }
 
-            return default( KeyValuePair<K, V> );
+            return default(KeyValuePair<K, V>);
         }
 
         /// <summary>
@@ -161,27 +146,25 @@ namespace BitStrap
         /// <typeparam name="V"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static string ToStringFull<K, V>( this Dictionary<K, V> collection )
-        {
-            if( collection == null )
+        public static string ToStringFull<K, V>(this Dictionary<K, V> collection) {
+            if (collection == null)
                 return "null";
-            if( collection.Count <= 0 )
+            if (collection.Count <= 0)
                 return "{}";
 
             StringBuilder sb = new StringBuilder();
 
-            sb.Append( "{ " );
+            sb.Append("{ ");
 
-            for( var enumerator = collection.GetEnumerator(); enumerator.MoveNext(); )
-            {
-                sb.Append( enumerator.Current.Key.ToString() );
-                sb.Append( "=" );
-                sb.Append( enumerator.Current.Value.ToString() );
-                sb.Append( ", " );
+            for (var enumerator = collection.GetEnumerator(); enumerator.MoveNext();) {
+                sb.Append(enumerator.Current.Key.ToString());
+                sb.Append("=");
+                sb.Append(enumerator.Current.Value.ToString());
+                sb.Append(", ");
             }
 
-            sb.Remove( sb.Length - 2, 2 );
-            sb.Append( " }" );
+            sb.Remove(sb.Length - 2, 2);
+            sb.Append(" }");
 
             return sb.ToString();
         }

@@ -1,5 +1,5 @@
-﻿namespace BitStrap
-{
+﻿namespace BitStrap {
+
     /// <summary>
     /// Put this attribute above one of your MonoBehaviour method and it will draw
     /// a button in the inspector automatically.
@@ -14,8 +14,7 @@
     /// <para>}</para>
     /// </code>
     /// </summary>
-    [System.AttributeUsage( System.AttributeTargets.Method )]
-    public class ButtonAttribute : System.Attribute
-    {
+    [System.AttributeUsage(System.AttributeTargets.Method)]
+    public class ButtonAttribute : System.Attribute {
     }
 }

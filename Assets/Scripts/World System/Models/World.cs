@@ -13,7 +13,7 @@ public class World {
         InstantitateTiles();
     }
 
-    void InstantitateTiles() {
+    private void InstantitateTiles() {
         for (int x = 0; x < Width; x++) {
             for (int y = 0; y < Height; y++) {
                 Tiles[x, y] = new Tile(TileTypes.Water, new Vector2(x, y));

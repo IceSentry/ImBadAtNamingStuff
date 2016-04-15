@@ -4,10 +4,13 @@ using UnityEngine;
 public enum TileTypes { Water, Grass, Rock, Dirt, Snow }
 
 public class Tile {
+
     public delegate void TypeChangedEventHandler(object source, EventArgs args);
+
     public event TypeChangedEventHandler TypeChanged;
 
     private TileTypes type;
+
     public TileTypes Type {
         get { return type; }
         set {

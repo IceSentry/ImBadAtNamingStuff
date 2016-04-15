@@ -6,18 +6,19 @@ using UnityEngine;
 [ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class WorldView : Singleton<WorldView> {
-    WorldManager worldManager;
-    MeshFilter meshFilter;
+    private WorldManager worldManager;
+    private MeshFilter meshFilter;
 
     public bool MeshIsGenerated = false;
 
     //Remember to change this if tilemap changes
-    const int TEXTURE_WIDTH = 6;
-    const int TEXTURE_HEIGHT = 2;
-    const float TEXTURE_TILE_WIDTH = 1f / TEXTURE_WIDTH;
-    const float TEXTURE_TILE_HEIGHT = 1f / TEXTURE_HEIGHT;
+    private const int TEXTURE_WIDTH = 6;
 
-    void Start() {
+    private const int TEXTURE_HEIGHT = 2;
+    private const float TEXTURE_TILE_WIDTH = 1f / TEXTURE_WIDTH;
+    private const float TEXTURE_TILE_HEIGHT = 1f / TEXTURE_HEIGHT;
+
+    private void Start() {
         meshFilter = GetComponent<MeshFilter>();
         worldManager = WorldManager.Instance;
         GenerateMesh();
@@ -42,7 +43,6 @@ public class WorldView : Singleton<WorldView> {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-
                 int verticesIndex = vertices.Count;
 
                 vertices.Add(new Vector3(x, y, 0));
@@ -70,8 +70,7 @@ public class WorldView : Singleton<WorldView> {
     }
 
     //TODO: Assign uv based on tile type
-    Vector2[] GetUV() {
-
+    private Vector2[] GetUV() {
         int width = worldManager.Width;
         int height = worldManager.Height;
 
@@ -104,22 +103,27 @@ public class WorldView : Singleton<WorldView> {
                 _x = 0 % TEXTURE_WIDTH;
                 _y = 0;
                 break;
+
             case TileTypes.Grass:
                 _x = 1 % TEXTURE_WIDTH;
                 _y = 0;
                 break;
+
             case TileTypes.Rock:
                 _x = 2 % TEXTURE_WIDTH;
                 _y = 0;
                 break;
+
             case TileTypes.Dirt:
                 _x = 3 % TEXTURE_WIDTH;
                 _y = 0;
                 break;
+
             case TileTypes.Snow:
                 _x = 4 % TEXTURE_WIDTH;
                 _y = 0;
                 break;
+
             default:
                 break;
         }
@@ -128,7 +132,7 @@ public class WorldView : Singleton<WorldView> {
         return index;
     }
 
-    void UpdateUVs() {
+    private void UpdateUVs() {
         Vector2[] uv = meshFilter.sharedMesh.uv;
 
         uv = GetUV();

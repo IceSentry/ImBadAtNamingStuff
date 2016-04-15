@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace BitStrap {
+
     public class BehaviourButtonsHelper {
         private static object[] emptyParamList = new object[0];
 

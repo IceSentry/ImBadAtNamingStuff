@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 
-namespace BitStrap
-{
+namespace BitStrap {
+
     /// <summary>
     /// Bunch of utility extension methods to the Color class.
     /// </summary>
-    public static class ColorHelper
-    {
+    public static class ColorHelper {
+
         /// <summary>
         /// Compress a color object to an int.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static int Encode( Color self )
-        {
+        public static int Encode(Color self) {
             Color32 color32 = self;
 
             int c = 0;
@@ -31,14 +30,13 @@ namespace BitStrap
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>
-        public static Color Decode( int color )
-        {
-            byte colorAlpha = ( byte ) ( ( color >> 24 ) & 0xFF );
-            byte colorRed = ( byte ) ( ( color >> 16 ) & 0xFF );
-            byte colorGreen = ( byte ) ( ( color >> 8 ) & 0xFF );
-            byte colorBlue = ( byte ) ( color & 0xFF );
+        public static Color Decode(int color) {
+            byte colorAlpha = (byte)((color >> 24) & 0xFF);
+            byte colorRed = (byte)((color >> 16) & 0xFF);
+            byte colorGreen = (byte)((color >> 8) & 0xFF);
+            byte colorBlue = (byte)(color & 0xFF);
 
-            return new Color32( colorRed, colorGreen, colorBlue, colorAlpha );
+            return new Color32(colorRed, colorGreen, colorBlue, colorAlpha);
         }
     }
 }

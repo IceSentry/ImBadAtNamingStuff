@@ -2,27 +2,31 @@
 using UnityEngine;
 
 public class WorldGenerator : Singleton<WorldGenerator> {
-    [SerializeField]
-    float noiseScale;
 
     [SerializeField]
-    int octaves;
+    private float noiseScale;
+
+    [SerializeField]
+    private int octaves;
+
     [SerializeField]
     [Range(0, 1)]
-    float persistance;
-    [SerializeField]
-    float lacunarity;
+    private float persistance;
 
     [SerializeField]
-    int seed;
-    [SerializeField]
-    bool randomizeSeed = false;
+    private float lacunarity;
 
     [SerializeField]
-    Vector2 offset;
+    private int seed;
 
     [SerializeField]
-    Region[] regions;
+    private bool randomizeSeed = false;
+
+    [SerializeField]
+    private Vector2 offset;
+
+    [SerializeField]
+    private Region[] regions;
 
     /// <summary>
     /// Creates a new world. If the seed is 0 the world will be empty.
@@ -55,7 +59,7 @@ public class WorldGenerator : Singleton<WorldGenerator> {
         return world;
     }
 
-    void OnValidate() {
+    private void OnValidate() {
         if (lacunarity < 1)
             lacunarity = 1;
         if (octaves < 0)
