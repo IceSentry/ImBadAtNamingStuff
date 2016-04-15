@@ -1,12 +1,15 @@
-﻿using System;
+﻿using BitStrap;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class WorldView : MonoBehaviour {
+public class WorldView : Singleton<WorldView> {
     WorldManager worldManager;
     MeshFilter meshFilter;
-    MeshRenderer meshRenderer;
+
+    public bool MeshIsGenerated = false;
 
     //Remember to change this if tilemap changes
     const int TEXTURE_WIDTH = 6;
@@ -16,7 +19,6 @@ public class WorldView : MonoBehaviour {
 
     void Start() {
         meshFilter = GetComponent<MeshFilter>();
-        meshRenderer = GetComponent<MeshRenderer>();
         worldManager = WorldManager.Instance;
         GenerateMesh();
 
@@ -29,7 +31,7 @@ public class WorldView : MonoBehaviour {
     }
 
     //TODO implement a chunk system
-    void GenerateMesh() {
+    public void GenerateMesh() {
         int width = worldManager.Width;
         int height = worldManager.Height;
 
@@ -63,6 +65,8 @@ public class WorldView : MonoBehaviour {
         meshData.uv = GetUV();
 
         meshFilter.sharedMesh = meshData.CreateMesh();
+        MeshIsGenerated = true;
+        Debug.Log("<color=green>Mesh Generated</color>");
     }
 
     //TODO: Assign uv based on tile type
@@ -88,6 +92,9 @@ public class WorldView : MonoBehaviour {
 
     //TODO make it less dependant on the value of the enum
     private Vector2 GetTextureIndex(int x, int y) {
+        if (worldManager.GetTileAt(x, y) == null)
+            return Vector2.zero;
+
         TileTypes type = worldManager.GetTileAt(x, y).Type;
         float _x = 0;
         float _y = 0;
@@ -130,6 +137,8 @@ public class WorldView : MonoBehaviour {
 
         meshFilter.sharedMesh.Optimize();
         meshFilter.sharedMesh.RecalculateNormals();
+
+        Debug.Log("<color=green>UV updated</color>");
     }
 
     public void OnTypeChanged(object source, EventArgs e) {
@@ -138,36 +147,5 @@ public class WorldView : MonoBehaviour {
 
     public void ReloadTexture() {
         UpdateUVs();
-    }
-}
-
-public class MeshData {
-    public Vector3[] vertices;
-    public int[] triangles;
-    public Vector2[] uv;
-
-    int triangleIndex;
-
-    public MeshData(int meshWidth, int meshHeight) {
-        vertices = new Vector3[meshWidth * meshHeight * 4];
-        uv = new Vector2[meshWidth * meshHeight * 4];
-        triangles = new int[meshWidth * meshHeight * 6];
-    }
-
-    public void AddTriangle(int a, int b, int c) {
-        triangles[triangleIndex] = a;
-        triangles[triangleIndex + 1] = b;
-        triangles[triangleIndex + 2] = c;
-        triangleIndex += 3;
-    }
-
-    public Mesh CreateMesh() {
-        Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.uv = uv;
-        mesh.Optimize();
-        mesh.RecalculateNormals();
-        return mesh;
     }
 }

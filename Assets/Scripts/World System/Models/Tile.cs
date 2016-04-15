@@ -26,7 +26,7 @@ public class Tile {
     }
 
     protected virtual void OnTypeChanged() {
-        if (TypeChanged != null)
+        if (TypeChanged != null && !WorldManager.Instance.IsReloadingWorld)
             TypeChanged(this, EventArgs.Empty);
     }
 }

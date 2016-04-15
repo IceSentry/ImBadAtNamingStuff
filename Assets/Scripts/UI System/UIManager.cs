@@ -16,11 +16,11 @@ public class UIManager : MonoBehaviour {
         Tile tile = WorldManager.Instance.GetTileAtWorldCoord(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (tile != null) {
-            tooltip += tile.Type + " at ";
-            tooltip += tile.Position;
+            tooltip += tile.Type;
+            //tooltip += " at " + tile.Position;
         }
 
-        tooltip += "\n" + Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //tooltip += "\n" + Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         tooltipUI.text = tooltip;
     }

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using BitStrap;
+using UnityEngine;
 
-public class WorldGenerator : MonoBehaviour {
+public class WorldGenerator : Singleton<WorldGenerator> {
     [SerializeField]
     float noiseScale;
 
@@ -48,6 +49,8 @@ public class WorldGenerator : MonoBehaviour {
                 }
             }
         }
+
+        Debug.Log("<color=green>World Generated</color>");
 
         return world;
     }
