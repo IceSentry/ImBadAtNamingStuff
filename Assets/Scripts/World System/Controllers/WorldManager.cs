@@ -42,4 +42,8 @@ public class WorldManager : MonoBehaviour {
     public Tile GetTileAtWorldCoord(int x, int y) {
         return GetTileAtWorldCoord(new Vector2(x, y));
     }
+
+    public Tile GetTileAt(int x, int y) {
+        return World.GetTileAt(x, y);
+    }
 }

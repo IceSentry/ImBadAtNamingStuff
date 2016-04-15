@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -7,14 +8,11 @@ public class WorldView : MonoBehaviour {
     MeshFilter meshFilter;
     MeshRenderer meshRenderer;
 
-    Vector3[] vertices;
-
-    [SerializeField]
-    int tileResolution;
-    [SerializeField]
-    float tileSize = 1.0f;
-
-    public Texture2D TileMap;
+    //Remember to change this if tilemap changes
+    const int TEXTURE_WIDTH = 6;
+    const int TEXTURE_HEIGHT = 2;
+    const float TEXTURE_TILE_WIDTH = 1f / TEXTURE_WIDTH;
+    const float TEXTURE_TILE_HEIGHT = 1f / TEXTURE_HEIGHT;
 
     void Start() {
         meshFilter = GetComponent<MeshFilter>();
@@ -32,97 +30,101 @@ public class WorldView : MonoBehaviour {
 
     //TODO implement a chunk system
     void GenerateMesh() {
-        int width = worldManager.Width + 1;
-        int height = worldManager.Height + 1;
+        int width = worldManager.Width;
+        int height = worldManager.Height;
 
         MeshData meshData = new MeshData(width, height);
 
-        int vertexIndex = 0;
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                meshData.vertices[vertexIndex] = new Vector2(x * tileSize, y * tileSize);
 
-                if (x < width - 1 && y < height - 1) {
-                    meshData.AddTriangle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
-                    meshData.AddTriangle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
-                }
+                int verticesIndex = vertices.Count;
 
-                vertexIndex++;
+                vertices.Add(new Vector3(x, y, 0));
+                vertices.Add(new Vector3(x, y + 1, 0));
+                vertices.Add(new Vector3(x + 1, y, 0));
+                vertices.Add(new Vector3(x + 1, y + 1, 0));
+
+                triangles.Add(verticesIndex);
+                triangles.Add(verticesIndex + 1);
+                triangles.Add(verticesIndex + 2);
+
+                triangles.Add(verticesIndex + 1);
+                triangles.Add(verticesIndex + 2);
+                triangles.Add(verticesIndex + 3);
             }
         }
 
-        //meshData.uv = AssignUV();
+        meshData.vertices = vertices.ToArray();
+        meshData.triangles = triangles.ToArray();
+        meshData.uv = GetUV();
 
         meshFilter.sharedMesh = meshData.CreateMesh();
     }
-
-    #region slow way of drawing the mesh
-    Texture2D GenerateTexture() {
-        int tilesPerRow = TileMap.width / tileResolution;
-        int tilesRow = TileMap.height / tileResolution;
-
-        int textureWidth = worldManager.Width * tileResolution;
-        int textureHeight = worldManager.Height * tileResolution;
-
-        Texture2D texture = new Texture2D(textureWidth, textureHeight);
-        texture.filterMode = FilterMode.Point;
-        texture.wrapMode = TextureWrapMode.Clamp;
-        //texture.SetPixels
-
-        for (int x = 0; x < worldManager.Width; x++) {
-            for (int y = 0; y < worldManager.Height; y++) {
-                Color[] tile = new Color[tileResolution * tileResolution];
-                switch (worldManager.GetTileAtWorldCoord(x, y).Type) {
-                    case TileTypes.Water:
-                        tile = TileMap.GetPixels(tileResolution * 2, tileResolution, tileResolution, tileResolution);
-                        break;
-                    case TileTypes.Grass:
-                        tile = TileMap.GetPixels(0, tileResolution, tileResolution, tileResolution);
-                        break;
-                    case TileTypes.Rock:
-                        tile = TileMap.GetPixels(tileResolution, tileResolution, tileResolution, tileResolution);
-                        break;
-                    case TileTypes.Dirt:
-                        tile = TileMap.GetPixels(tileResolution * 4, tileResolution, tileResolution, tileResolution);
-                        break;
-                    case TileTypes.Snow:
-                        tile = TileMap.GetPixels(tileResolution * 3, tileResolution, tileResolution, tileResolution);
-                        break;
-                    default:
-                        break;
-                }
-                texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, tile);
-            }
-        }
-
-        texture.Apply();
-        return texture;
-    }
-
-    Color[] GenerateColors() {
-        Color[] colors = new Color[worldManager.Width * worldManager.Height];
-
-
-
-        return colors;
-    }
-
-    void DrawMesh(MeshData meshData, Texture2D texture) {
-        meshFilter.sharedMesh = meshData.CreateMesh();
-        meshRenderer.sharedMaterial.mainTexture = texture;
-    }
-    #endregion
 
     //TODO: Assign uv based on tile type
-    Vector2[] AssignUV() {
-        throw new NotImplementedException();
+    Vector2[] GetUV() {
+
+        int width = worldManager.Width;
+        int height = worldManager.Height;
+
+        List<Vector2> uv = new List<Vector2>();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Vector2 textureIndex = GetTextureIndex(x, y);
+                uv.Add(new Vector2(textureIndex.x * TEXTURE_TILE_WIDTH + TEXTURE_TILE_WIDTH, textureIndex.y * TEXTURE_TILE_HEIGHT + TEXTURE_TILE_HEIGHT));
+                uv.Add(new Vector2(textureIndex.x * TEXTURE_TILE_WIDTH + TEXTURE_TILE_WIDTH, textureIndex.y * TEXTURE_TILE_HEIGHT));
+                uv.Add(new Vector2(textureIndex.x * TEXTURE_TILE_WIDTH, textureIndex.y * TEXTURE_TILE_HEIGHT + TEXTURE_TILE_HEIGHT));
+                uv.Add(new Vector2(textureIndex.x * TEXTURE_TILE_WIDTH, textureIndex.y * TEXTURE_TILE_HEIGHT));
+            }
+        }
+
+        return uv.ToArray();
+    }
+
+    //TODO make it less dependant on the value of the enum
+    private Vector2 GetTextureIndex(int x, int y) {
+        TileTypes type = worldManager.GetTileAt(x, y).Type;
+        float _x = 0;
+        float _y = 0;
+
+        switch (type) {
+            case TileTypes.Water:
+                _x = 0 % TEXTURE_WIDTH;
+                _y = 0;
+                break;
+            case TileTypes.Grass:
+                _x = 1 % TEXTURE_WIDTH;
+                _y = 0;
+                break;
+            case TileTypes.Rock:
+                _x = 2 % TEXTURE_WIDTH;
+                _y = 0;
+                break;
+            case TileTypes.Dirt:
+                _x = 3 % TEXTURE_WIDTH;
+                _y = 0;
+                break;
+            case TileTypes.Snow:
+                _x = 4 % TEXTURE_WIDTH;
+                _y = 0;
+                break;
+            default:
+                break;
+        }
+
+        Vector2 index = new Vector2(_x, _y);
+        return index;
     }
 
     void UpdateUVs() {
         Vector2[] uv = meshFilter.sharedMesh.uv;
 
-        uv = AssignUV();
+        uv = GetUV();
 
         meshFilter.sharedMesh.uv = uv;
 
@@ -147,9 +149,9 @@ public class MeshData {
     int triangleIndex;
 
     public MeshData(int meshWidth, int meshHeight) {
-        vertices = new Vector3[meshWidth * meshHeight];
-        uv = new Vector2[meshWidth * meshHeight];
-        triangles = new int[(meshWidth - 1) * (meshHeight - 1) * 6];
+        vertices = new Vector3[meshWidth * meshHeight * 4];
+        uv = new Vector2[meshWidth * meshHeight * 4];
+        triangles = new int[meshWidth * meshHeight * 6];
     }
 
     public void AddTriangle(int a, int b, int c) {
