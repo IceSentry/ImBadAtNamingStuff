@@ -1,21 +1,16 @@
 fileFormatVersion: 2
-guid: c3d0c5f6ff05d6d439fa12482578f1a7
-timeCreated: 1459901006
+guid: ef2d4b469beeea549984b84c30a7813a
+timeCreated: 1461307194
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Grass
-    21300002: Rock
-    21300004: Water
-    21300006: Snow
-    21300008: Dirt
+    21300000: TileMap_0
+    21300002: TileMap_1
+    21300004: TileMap_2
+    21300006: TileMap_3
+    21300008: TileMap_4
     21300010: TileMap_5
     21300012: TileMap_6
-    21300014: TileMap_7
-    21300016: TileMap_8
-    21300018: TileMap_9
-    21300020: TileMap_10
-    21300022: TileMap_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -31,7 +26,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 1
+  isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
@@ -50,19 +45,19 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 2
-  spriteExtrude: 0
+  spriteMode: 1
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 64
   alphaIsTransparency: 1
-  textureType: 5
+  textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Grass
+    - name: TileMap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -70,14 +65,14 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -32, y: 32}
         - {x: -32, y: -32}
         - {x: 32, y: -32}
         - {x: 32, y: 32}
-    - name: Rock
+    - name: TileMap_1
       rect:
         serializedVersion: 2
         x: 64
@@ -85,52 +80,52 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -32, y: 32}
         - {x: -32, y: -32}
         - {x: 32, y: -32}
         - {x: 32, y: 32}
-    - name: Water
+    - name: TileMap_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 32}
+        - {x: -32, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 32}
+    - name: TileMap_3
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 32}
+        - {x: -32, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 32}
+    - name: TileMap_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 64
+        y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-    - name: Snow
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-    - name: Dirt
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -32, y: 32}
@@ -140,94 +135,6 @@ TextureImporter:
     - name: TileMap_5
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-      - - {x: -26, y: 26}
-        - {x: 26, y: 26}
-        - {x: 26, y: -26}
-        - {x: -26, y: -26}
-      - - {x: -2, y: 13}
-        - {x: -2, y: -14}
-        - {x: 17, y: -14}
-        - {x: 17, y: 13}
-      - - {x: -18, y: 9}
-        - {x: -21, y: 7}
-        - {x: -21, y: -7}
-        - {x: -12, y: -12}
-        - {x: -5, y: -12}
-        - {x: -1, y: -8}
-        - {x: -1, y: 5}
-        - {x: -3, y: 9}
-    - name: TileMap_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
-    - name: TileMap_7
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
-    - name: TileMap_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
-    - name: TileMap_9
-      rect:
-        serializedVersion: 2
         x: 192
         y: 0
         width: 64
@@ -240,11 +147,7 @@ TextureImporter:
         - {x: -32, y: -32}
         - {x: 32, y: -32}
         - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
-    - name: TileMap_10
+    - name: TileMap_6
       rect:
         serializedVersion: 2
         x: 256
@@ -259,29 +162,6 @@ TextureImporter:
         - {x: -32, y: -32}
         - {x: 32, y: -32}
         - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
-    - name: TileMap_11
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -32, y: 32}
-        - {x: -32, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 32}
-      - - {x: -27, y: 27}
-        - {x: 27, y: 27}
-        - {x: 27, y: -27}
-        - {x: -27, y: -27}
     outline: []
   spritePackingTag: 
   userData: 

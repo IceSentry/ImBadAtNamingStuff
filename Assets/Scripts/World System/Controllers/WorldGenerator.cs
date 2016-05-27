@@ -2,6 +2,7 @@
 using UnityEngine;
 
 public class WorldGenerator : Singleton<WorldGenerator> {
+#pragma warning disable 0649
 
     [SerializeField]
     private float noiseScale;
@@ -28,6 +29,7 @@ public class WorldGenerator : Singleton<WorldGenerator> {
     [SerializeField]
     private Region[] regions;
 
+#pragma warning restore 0649
     /// <summary>
     /// Creates a new world. If the seed is 0 the world will be empty.
     /// </summary>
